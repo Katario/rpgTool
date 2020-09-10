@@ -1,0 +1,14 @@
+version: '3.3'
+
+services:
+
+  rpg-tool-front:
+    container_name: rpg-tool-front
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/app'
+      - '/app/node_modules'
+    ports:
+      - '8096:8080'
