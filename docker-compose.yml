@@ -1,7 +1,6 @@
 version: '3.3'
 
 services:
-
   rpg-tool-front:
     container_name: rpg-tool-front
     build:
