@@ -1,16 +1,22 @@
-# base image
-FROM node:15.2-alpine3.10
+FROM node:current-alpine as Local
 
-# set working directory
-WORKDIR /app
+# Setup directory
+WORKDIR /usr/src/app
 
-# add `/app/node_modules/.bin` to $PATH
-ENV PATH /app/node_modules/.bin:$PATH
+# Copy packages
+COPY package*.json ./
 
-# install and cache app dependencies
-COPY package.json /app/package.json
-RUN npm install
-RUN npm install @vue/cli -g
+# Run Clean Install instead of Install to get an exact extract of
+# package-lock.json
+RUN npm i
 
-# start app
-CMD ["npm", "run", "serve"]
+# Copy files
+COPY . .
+
+# Build with vite
+RUN npm run build
+
+# Expose 3035 to not confuse with 3030 in back
+EXPOSE 3035
+
+CMD ["npm", "run", "dev"]
